@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_17_103107) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_17_123337) do
+  create_table "projects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -18,6 +27,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_17_103107) do
     t.string "user_agent"
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.integer "assignee_id"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "project_id", null: false
+    t.integer "status"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -28,5 +48,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_17_103107) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "projects", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tasks", "projects"
 end
