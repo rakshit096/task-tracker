@@ -2,6 +2,10 @@ class TasksController < ApplicationController
   before_action :set_project
   before_action :set_task, only: %i[ edit update destroy update_status ]
 
+  def index
+  @tasks = @project.tasks
+  render json: @tasks.as_json(only: [:id, :title, :description, :status, :assignee_id])#Serializes the @tasks Ruby objects into JSON text and returns HTTP 200
+  end
   def new
     @task = @project.tasks.new
   end

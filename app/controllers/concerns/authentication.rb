@@ -18,15 +18,26 @@ module Authentication
     end
 
     def require_authentication
-      resume_session || request_authentication
+      resume_session || resume_session_by_token || request_authentication
     end
 
     def resume_session
-      Current.session ||= find_session_by_cookie
+      if session_record = find_session_by_cookie
+        Current.session = session_record
+        Current.user = session_record.user
+      end
     end
 
     def find_session_by_cookie
       Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+    end
+
+    def resume_session_by_token
+      if token = request.headers["Authorization"]&.split("Bearer ")&.last
+        if user = User.find_by(api_token: token)
+          Current.user = user
+        end
+      end
     end
 
     def request_authentication
@@ -41,6 +52,7 @@ module Authentication
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
+        Current.user = session.user
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
       end
     end
