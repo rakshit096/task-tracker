@@ -1,0 +1,11 @@
+<h1 class="text-2xl font-bold mb-4">My Projects</h1>
+
+<%= link_to "New Project", new_project_path, class: "bg-blue-600 text-white px-3 py-1 rounded inline-block mb-4" %>
+
+<ul>
+  <% @projects.each do |project| %>
+    <li class="mb-2">
+      <%= link_to project.name, project_path(project), class: "text-blue-600 underline" %>
+    </li>
+  <% end %>
+</ul>
