@@ -1,0 +1,10 @@
+<li id="<%= dom_id(task) %>" class="border rounded px-3 py-2 mb-2 flex justify-between items-center">
+  <div>
+    <strong><%= task.title %></strong>
+    <span class="text-sm text-gray-500">(<%= task.status %>)</span>
+  </div>
+  <div>
+    <%= link_to "Edit", edit_project_task_path(@project, task), class: "text-blue-600 underline mr-2" %>
+    <%= button_to "Delete", project_task_path(@project, task), method: :delete, class: "text-red-600 underline inline", form: { data: { turbo_confirm: "Delete this task?" } } %>
+  </div>
+</li>

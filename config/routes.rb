@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
 
-  root "projects#new"
+  root "projects#index"
 
   resource :session
   resources :passwords, param: :token
   resource :registration, only: %i[ new create ]
-  resources :projects
 
-
+  resources :projects do                       #tasks are nested under projects and it generates all restful actions except the two mentioned
+    resources :tasks, except: [:index, :show]
+  end
 end

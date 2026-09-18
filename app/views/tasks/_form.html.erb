@@ -1,0 +1,28 @@
+<%= form_with model: [@project, @task] do |form| %>
+  <% if @task.errors.any? %>
+    <div class="text-red-600 mb-4">
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title %><br>
+    <%= form.text_field :title, class: "border rounded px-2 py-1 w-full" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description %><br>
+    <%= form.text_area :description, class: "border rounded px-2 py-1 w-full" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status %><br>
+    <%= form.select :status, Task.statuses.keys, {}, class: "border rounded px-2 py-1 w-full" %>
+  </div>
+
+  <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+<% end %>
