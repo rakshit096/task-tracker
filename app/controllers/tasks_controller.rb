@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_project
-  before_action :set_task, only: %i[ edit update destroy ]
+  before_action :set_task, only: %i[ edit update destroy update_status ]
 
   def new
     @task = @project.tasks.new
@@ -25,6 +25,14 @@ class TasksController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+
+  def update_status
+    @task.update(status: params[:status])
+    respond_to do |format|
+    format.turbo_stream
+    format.html { redirect_to @project }
+  end
+end
 
   def destroy
     @task.destroy
