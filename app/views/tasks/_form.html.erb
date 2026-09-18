@@ -24,5 +24,10 @@
     <%= form.select :status, Task.statuses.keys, {}, class: "border rounded px-2 py-1 w-full" %>
   </div>
 
+  <div class="mb-3">
+    <%= form.label :assignee_id, "Assignee" %><br>
+    <%= form.collection_select :assignee_id, User.all, :id, :email_address, { include_blank: "Unassigned" }, class: "border rounded px-2 py-1 w-full" %>
+  </div>
+
   <%= form.submit class: "bg-blue-600 text-white px-4 py-2 rounded" %>
 <% end %>
