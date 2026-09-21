@@ -18,6 +18,16 @@ Rails.application.configure do
   config.solid_queue.connects_to = { database: { writing: :queue } }
   config.active_job.queue_adapter = :inline
 
+  # config/environments/development.rb
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "localhost",
+    port: 1025
+  }
+
 
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
