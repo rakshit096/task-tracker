@@ -16,6 +16,8 @@ Rails.application.configure do
   config.server_timing = true
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
+  config.active_job.queue_adapter = :inline
+
 
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
