@@ -1,14 +1,27 @@
-<h1 class="text-2xl font-bold mb-2"><%= @project.name %></h1>
-<p class="mb-4"><%= @project.description %></p>
+<div class="mb-6">
+  <%= link_to "← Back to projects", projects_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
 
-<%= link_to "Edit Project", edit_project_path(@project), class: "text-blue-600 underline mr-4" %>
-<%= button_to "Delete Project", project_path(@project), method: :delete, class: "text-red-600 underline", form: { data: { turbo_confirm: "Are you sure?" } } %>
+  <div class="flex justify-between items-start mt-2">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900"><%= @project.name %></h1>
+      <p class="text-gray-600 mt-1"><%= @project.description %></p>
+    </div>
+    <div class="flex gap-3">
+      <%= link_to "Edit", edit_project_path(@project), class: "text-sm text-gray-600 hover:text-gray-900 underline" %>
+      <%= button_to "Delete", project_path(@project), method: :delete, class: "text-sm text-red-600 hover:text-red-700 underline bg-transparent border-0 cursor-pointer", form: { data: { turbo_confirm: "Are you sure?" } } %>
+    </div>
+  </div>
+</div>
 
-<h2 class="text-xl font-bold mt-6 mb-2">Tasks</h2>
-<%= link_to "New Task", new_project_task_path(@project), class: "bg-blue-600 text-white px-3 py-1 rounded inline-block mb-4" %>
+<div class="flex justify-between items-center mb-3">
+  <h2 class="text-lg font-semibold text-gray-900">Tasks</h2>
+  <%= link_to "New Task", new_project_task_path(@project), class: "bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-md text-sm font-medium" %>
+</div>
 
-<ul id="tasks">
+<ul id="tasks" class="space-y-2">
   <%= render @project.tasks, project: @project %>
 </ul>
 
-<%= link_to "← Back to projects", projects_path, class: "block mt-4 text-gray-600" %>
+<% if @project.tasks.none? %>
+  <p class="text-gray-500 text-sm">No tasks yet.</p>
+<% end %>

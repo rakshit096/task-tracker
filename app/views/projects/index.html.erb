@@ -1,11 +1,18 @@
-<h1 class="text-2xl font-bold mb-4">My Projects</h1>
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">My Projects</h1>
+  <%= link_to "New Project", new_project_path, class: "bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md font-medium" %>
+</div>
 
-<%= link_to "New Project", new_project_path, class: "bg-blue-600 text-white px-3 py-1 rounded inline-block mb-4" %>
-
-<ul>
-  <% @projects.each do |project| %>
-    <li class="mb-2">
-      <%= link_to project.name, project_path(project), class: "text-blue-600 underline" %>
-    </li>
-  <% end %>
-</ul>
+<% if @projects.any? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% @projects.each do |project| %>
+      <%= link_to project_path(project), class: "block bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow" do %>
+        <h2 class="font-semibold text-lg text-gray-900"><%= project.name %></h2>
+        <p class="text-gray-500 text-sm mt-1 line-clamp-2"><%= project.description %></p>
+        <p class="text-xs text-gray-400 mt-3"><%= pluralize(project.tasks.count, "task") %></p>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-gray-500">No projects yet — create your first one.</p>
+<% end %>

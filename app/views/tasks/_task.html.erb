@@ -1,14 +1,20 @@
-<li id="<%= dom_id(task) %>" class="border rounded px-3 py-2 mb-2 flex justify-between items-center">
+<li id="<%= dom_id(task) %>" class="bg-white border border-gray-200 rounded-lg px-4 py-3 flex justify-between items-center">
   <div>
-    <strong><%= task.title %></strong>
-
-    <%= form_with url: update_status_project_task_path(project, task), method: :patch, class: "inline-block ml-2" do |form| %>
-      <%= form.select :status, Task.statuses.keys, { selected: task.status },
-            { class: "border rounded text-sm", onchange: "this.form.requestSubmit()" } %>
+    <p class="font-medium text-gray-900"><%= task.title %></p>
+    <p class="text-sm text-gray-500"><%= task.description %></p>
+    <% if task.assignee %>
+      <p class="text-xs text-gray-400 mt-1">Assigned to <%= task.assignee.email_address %></p>
     <% end %>
   </div>
-  <div>
-    <%= link_to "Edit", edit_project_task_path(project, task), class: "text-blue-600 underline mr-2" %>
-    <%= button_to "Delete", project_task_path(project, task), method: :delete, class: "text-red-600 underline inline", form: { data: { turbo_confirm: "Delete this task?" } } %>
+
+  <div class="flex items-center gap-3">
+    <%= form_with url: update_status_project_task_path(project, task), method: :patch do |form| %>
+      <%= form.select :status, Task.statuses.keys, { selected: task.status },
+            class: status_badge_class(task.status) + " text-sm border-0 rounded-full px-3 py-1 font-medium cursor-pointer",
+            onchange: "this.form.requestSubmit()" %>
+    <% end %>
+
+    <%= link_to "Edit", edit_project_task_path(project, task), class: "text-sm text-gray-600 hover:text-gray-900 underline" %>
+    <%= button_to "Delete", project_task_path(project, task), method: :delete, class: "text-sm text-red-600 hover:text-red-700 underline bg-transparent border-0 cursor-pointer", form: { data: { turbo_confirm: "Delete this task?" } } %>
   </div>
 </li>
