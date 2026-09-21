@@ -31,8 +31,8 @@ class TasksController < ApplicationController
     respond_to do |format|
     format.turbo_stream
     format.html { redirect_to @project }
+   end
   end
-end
 
   def destroy
     @task.destroy
