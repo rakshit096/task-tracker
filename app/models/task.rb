@@ -4,7 +4,8 @@ class Task < ApplicationRecord
 
   enum :status, { pending: 0, in_progress: 1, done: 2 }, default: :pending
 
-  validates :title, presence: true
+  validates :title, presence: true, length: { maximum: 200 }
+  validates :status, presence: true
 
   after_commit :notify_assignee, if: :saved_change_to_assignee_id?
 
