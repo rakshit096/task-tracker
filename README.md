@@ -107,8 +107,7 @@ Then visit **http://localhost:3000**.
 - Task assignees can be **any** registered user, not just members of that specific project — there's no "project membership" concept yet.
 - No model/controller validations beyond basic presence checks — a planned next step.
 - No automated test suite yet (Minitest) — a planned next step.
-
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Application Architecture & Development Summary
 
