@@ -3,6 +3,7 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Current.user.projects
+    render json: @projects.as_json(only: [ :id, :name, :description ])#Serializes the @projects Ruby objects into JSON text and returns HTTP 200
   end
 
   def show
