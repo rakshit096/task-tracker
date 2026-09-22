@@ -31,7 +31,9 @@
   <div class="flex gap-4 items-center">
     <%= link_to "My Projects", projects_path, class: "text-sm text-gray-700 hover:text-gray-900" %>
     <%= link_to "Assigned to Me", my_tasks_path, class: "text-sm text-gray-700 hover:text-gray-900" %>
-    <%= button_to "Sign out", session_path, method: :delete, class: "text-sm text-gray-600 hover:text-gray-900 underline bg-transparent border-0 cursor-pointer" %>
+    <span class="text-sm text-gray-400">|</span>
+    <span class="text-sm text-gray-500"><%= Current.user.email_address %></span>
+    <%= button_to "Sign out", session_path, method: :delete, class: "text-sm text-gray-600 hover:text-red-500 underline bg-transparent border-0 cursor-pointer" %>
   </div>
 <% end %>
     </div>
