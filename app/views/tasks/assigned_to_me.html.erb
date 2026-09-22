@@ -3,9 +3,11 @@
 <% if @tasks.any? %>
   <ul class="space-y-2">
     <% @tasks.each do |task| %>
-      <li class="bg-white border border-gray-200 rounded-lg px-4 py-3">
-        <p class="font-medium text-gray-900"><%= task.title %></p>
-        <p class="text-sm text-gray-500">in <%= task.project.name %> · <%= task.status %></p>
+      <li>
+        <%= link_to project_task_path(task.project, task), class: "block bg-white border border-gray-200 rounded-lg px-4 py-3 hover:shadow-md transition-shadow" do %>
+          <p class="font-medium text-gray-900"><%= task.title %></p>
+          <p class="text-sm text-gray-500">in <%= task.project.name %> · <%= task.status %></p>
+        <% end %>
       </li>
     <% end %>
   </ul>
