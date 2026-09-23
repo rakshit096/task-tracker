@@ -9,7 +9,7 @@ class TaskMailerTest < ActionMailer::TestCase
     mail = TaskMailer.assigned(task)
 
     assert_equal "You've been assigned: #{task.title}", mail.subject
-    assert_equal [user.email_address], mail.to
+    assert_equal [ user.email_address ], mail.to
     assert_match task.title, mail.body.encoded
   end
 end

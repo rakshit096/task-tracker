@@ -1,8 +1,8 @@
 require "test_helper"
 
 class ProjectTest < ActiveSupport::TestCase
-  setup do                #Runs before every single test. It prepares common variables so you don't repeat setup code (keeping tests DRY).
-    @user=users(:one)     #ab the fake user named 'one' from the fixture file, so I have a real, valid User to attach my test Project to.
+  setup do                # Runs before every single test. It prepares common variables so you don't repeat setup code (keeping tests DRY).
+    @user=users(:one)     # ab the fake user named 'one' from the fixture file, so I have a real, valid User to attach my test Project to.
   end
 
   test "valid with a name and user" do
