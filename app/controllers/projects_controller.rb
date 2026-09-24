@@ -1,7 +1,5 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
-  before_action :authorize_owner!, only: %i[ edit update ]
-  before_action :authorize_delete!, only: :destroy
 
   def index
     @projects = Current.user.admin? ? Project.all : Current.user.projects
@@ -43,14 +41,6 @@ class ProjectsController < ApplicationController
 
   def set_project
     @project = Current.user.admin? ? Project.find(params[:id]) : Current.user.projects.find(params[:id])
-  end
-
-  def authorize_owner!
-    head :not_found unless @project.user == Current.user || Current.user.admin?
-  end
-
-  def authorize_delete!
-    head :not_found unless @project.user == Current.user || Current.user.admin?
   end
 
   def project_params
