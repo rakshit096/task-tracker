@@ -2,7 +2,8 @@ class TasksController < ApplicationController
   before_action :set_project, except: %i[ assigned_to_me ]
   before_action :set_task, only: %i[ show edit update destroy update_status ]
   before_action :authorize_viewer!, only: %i[ show update_status ]
-  before_action :authorize_owner!, only: %i[ new create edit update destroy ]
+  before_action :authorize_owner!, only: %i[ new create edit update ]
+  before_action :authorize_delete!, only: :destroy
   skip_before_action :set_project, only: :assigned_to_me
 
   def show
@@ -60,13 +61,17 @@ class TasksController < ApplicationController
   end
 
   def authorize_viewer!
-    unless @project.user == Current.user || @task.assignee == Current.user
-      head :not_found
+    unless @project.user == Current.user || @task&.assignee == Current.user || Current.user.admin?
+      head :not_found 
     end
   end
 
   def authorize_owner!
-    head :not_found unless @project.user == Current.user
+    head :not_found unless @project.user == Current.user || Current.user.admin?
+  end
+
+  def authorize_delete!
+    head :not_found unless @project.user == Current.user || Current.user.admin?
   end
 
   def task_params
