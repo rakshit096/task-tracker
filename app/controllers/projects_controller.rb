@@ -6,6 +6,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @unassigned_tasks = @project.tasks.unassigned
+    @assigned_tasks = @project.tasks.assigned.includes(:assignee)
   end
 
   def new

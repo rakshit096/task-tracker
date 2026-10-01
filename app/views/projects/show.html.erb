@@ -18,9 +18,31 @@
   <%= link_to "New Task", new_project_task_path(@project), class: "bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-md text-sm font-medium" %>
 </div>
 
-<ul id="tasks" class="space-y-2">
-  <%= render @project.tasks, project: @project %>
-</ul>
+<div class="mb-6">
+  <h2 class="text-lg font-semibold text-gray-900 mb-2">
+    Unassigned <span class="text-sm font-normal text-gray-400">(<%= @unassigned_tasks.size %>)</span>
+  </h2>
+  <% if @unassigned_tasks.any? %>
+    <ul id="unassigned_tasks" class="space-y-2">
+      <%= render @unassigned_tasks, project: @project %>
+    </ul>
+  <% else %>
+    <p class="text-sm text-gray-400">Nothing unassigned.</p>
+  <% end %>
+</div>
+
+<div>
+  <h2 class="text-lg font-semibold text-gray-900 mb-2">
+    Assigned <span class="text-sm font-normal text-gray-400">(<%= @assigned_tasks.size %>)</span>
+  </h2>
+  <% if @assigned_tasks.any? %>
+    <ul id="assigned_tasks" class="space-y-2">
+      <%= render @assigned_tasks, project: @project %>
+    </ul>
+  <% else %>
+    <p class="text-sm text-gray-400">Nothing assigned yet.</p>
+  <% end %>
+</div>
 
 <% if @project.tasks.none? %>
   <p class="text-gray-500 text-sm">No tasks yet.</p>
