@@ -4,4 +4,7 @@ class Project < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :name, uniqueness: { scope: :user_id, case_sensitive: false }
+
+    enum :status, { planning: 0, in_progress: 1, completed: 2, on_hold: 3 }, default: :planning
+
 end

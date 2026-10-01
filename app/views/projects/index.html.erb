@@ -7,7 +7,10 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     <% @projects.each do |project| %>
       <%= link_to project_path(project), class: "block bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow" do %>
-        <h2 class="font-semibold text-lg text-gray-900"><%= project.name %></h2>
+        <div class="flex justify-between items-start">
+          <h2 class="font-semibold text-lg text-gray-900"><%= project.name %></h2>
+          <span class="<%= project_status_badge_class(project.status) %> text-xs rounded-full px-2 py-1 font-medium"><%= project.status.humanize %></span>
+        </div>
         <p class="text-gray-500 text-sm mt-1 line-clamp-2"><%= project.description %></p>
         <p class="text-xs text-gray-400 mt-3"><%= pluralize(project.tasks.count, "task") %></p>
       <% end %>
