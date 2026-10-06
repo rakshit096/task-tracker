@@ -31,7 +31,7 @@ class TasksController < ApplicationController
     if result.success?
       redirect_to @project, notice: "Task updated."
     else
-      @task.reload
+      @task=result.data
       flash.now[:alert] = result.error
       render :edit, status: :unprocessable_entity
     end
@@ -51,8 +51,13 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task.destroy
+  result = Tasks::DestroyService.call(task: @task, user: Current.user)
+
+  if result.success?
     redirect_to @project, notice: "Task deleted."
+  else
+    redirect_to @project, alert: result.error
+  end
   end
 
   def assigned_to_me
