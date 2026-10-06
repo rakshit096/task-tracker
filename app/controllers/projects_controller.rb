@@ -15,10 +15,13 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Current.user.projects.new(project_params)
-    if @project.save
-      redirect_to @project, notice: "Project created."
+    result = Projects::CreateService.call(user: Current.user, params: project_params)
+
+    if result.success?
+      redirect_to result.data, notice: "Project created."
     else
+      @project = result.data
+      flash.now[:alert] = result.error
       render :new, status: :unprocessable_entity
     end
   end
@@ -27,16 +30,25 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    if @project.update(project_params)
+    result = Projects::UpdateService.call(project: @project, params: project_params, user: Current.user)
+
+    if result.success?
       redirect_to @project, notice: "Project updated."
     else
+      @project = result.data
+      flash.now[:alert] = result.error
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @project.destroy
-    redirect_to projects_path, notice: "Project deleted."
+    result = Projects::DestroyService.call(project: @project, user: Current.user)
+
+    if result.success?
+      redirect_to projects_path, notice: "Project deleted."
+    else
+      redirect_to @project, alert: result.error
+    end
   end
 
   private
