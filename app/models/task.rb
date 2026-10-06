@@ -9,12 +9,4 @@ class Task < ApplicationRecord
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
-
-  after_commit :notify_assignee, if: :saved_change_to_assignee_id?
-
-  private
-
-  def notify_assignee
-    TaskAssignmentNotifierJob.perform_later(self) if assignee_id.present?
-  end
 end

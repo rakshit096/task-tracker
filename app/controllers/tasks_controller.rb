@@ -24,22 +24,26 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @task.update(task_params)
+    result = Tasks::UpdateService.call(task: @task, params: task_params, user: Current.user)
+    if result.success?
       redirect_to @project, notice: "Task updated."
     else
+      @task.reload
+      flash.now[:alert] = result.error
       render :edit, status: :unprocessable_entity
     end
   end
 
   def update_status
-    if params[:status].in?(Task.statuses.keys)
-      @task.update(status: params[:status])
+    result = Tasks::UpdateStatusService.call(task: @task, status: params[:status], user: Current.user)
+    if result.success?
       respond_to do |format|
         format.turbo_stream
+
         format.html { redirect_to @project, notice: "Status updated." }
       end
     else
-      redirect_to @project, alert: "Invalid status value."
+      redirect_to @project, alert: result.error
     end
   end
 
