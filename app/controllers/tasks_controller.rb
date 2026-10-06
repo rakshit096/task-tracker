@@ -12,12 +12,15 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = @project.tasks.new(task_params)
-    if @task.save
-      redirect_to @project, notice: "Task added."
-    else
-      render :new, status: :unprocessable_entity
-    end
+  result = Tasks::CreateService.call(project: @project, params: task_params, user: Current.user)
+
+  if result.success?
+    redirect_to @project, notice: "Task added."
+  else
+    @task = result.data
+    flash.now[:alert] = result.error
+    render :new, status: :unprocessable_entity
+  end
   end
 
   def edit
