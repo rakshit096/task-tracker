@@ -8,11 +8,14 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      start_new_session_for @user
-      redirect_to root_path, notice: "Welcome Your account is created"
+    result = Registrations::CreateService.call(params: user_params)
+
+    if result.success?
+      start_new_session_for result.data
+      redirect_to root_path, notice: "Welcome! Your account is created."
     else
+      @user = result.data
+      flash.now[:alert] = result.error
       render :new, status: :unprocessable_entity
     end
   end
